@@ -1,11 +1,9 @@
 #include <iostream>
-
 #include "imageio.h"
 
 
 int main()
 {
-
   std::string input = "image1.pgm";
   int img[MAX_H][MAX_W];
   int h, w;
@@ -26,7 +24,6 @@ int main()
   
   // and save this new image to file "outImage.pgm"
   writeImage("outImage.pgm",out, h, w);
-
   
   return 0;
 }
