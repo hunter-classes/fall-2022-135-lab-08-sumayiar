@@ -1,10 +1,25 @@
 #include <iostream>
+#include <string>
 #include "imageio.h"
 
-//stores all functions, tests, etc.
-
-//PSEUDOCODE
-//1- 
+int main()
+{
+  std::string input = "inImage.pgm";
+  int img[MAX_H][MAX_W];
+  int h, w;
+  readImage(input, img, h, w); // read it from the file "image1.jpg"
+  // h and w were passed by reference and
+  // now contain the dimensions of the picture
+  // and the 2-dimesional array img contains the image data
+  
+  // Now we can manipulate the image the way we like
+  // for example we copy its contents into a new array
+  int invert[MAX_H][MAX_W];
+  int invertHalf[MAX_H][MAX_W];
+  int box[MAX_H][MAX_W];
+  int frame[MAX_H][MAX_W];
+  int scale[MAX_H][MAX_W];
+  int pixelate[MAX_H][MAX_W];
 
   //invert
 	for(int row = 0; row < h; row++) {
@@ -93,3 +108,13 @@
       pixelate[row + 1][col + 1] = (int)round(a);
 		}
 	}
+  // and save this new image to file "outImage.pgm"
+  writeImage("inImage.pgm",invert, h, w);
+  writeImage("inImage.pgm",invertHalf, h, w);
+  writeImage("inImage.pgm",box, h, w);
+  writeImage("inImage.pgm",frame, h, w);
+  writeImage("inImage.pgm",scale, h, w);
+  writeImage("inImage.pgm",pixelate, h, w);
+  
+  return 0;
+}

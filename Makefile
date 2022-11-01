@@ -1,4 +1,4 @@
-CXXFLAGS = -Wall -Wextra -g
+CXXFLAGS = -Wall -g
 main: main.o imageio.o
 	g++ -o main main.o imageio.o
 sample: sample.o imageio.o
@@ -9,4 +9,3 @@ imageio.o: imageio.cpp imageio.h
 
 clean:
 	rm -f sample.o imageio.o main.o test.o
-

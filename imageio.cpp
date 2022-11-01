@@ -2,6 +2,8 @@
 #include <cassert>
 #include <cstdlib>
 #include <fstream>
+#include <string>
+
 
 using namespace std;
 
@@ -11,7 +13,7 @@ using namespace std;
 // Notice that: height and width are passed by reference!
 void readImage(std::string filename, int image[MAX_H][MAX_W], int &height, int &width) {
 	char c;
-	//int x;
+	int x;
 	ifstream instr;
 	instr.open(filename);
 

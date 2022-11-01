@@ -1,9 +1,81 @@
 #include <iostream>
+#include <cassert>
+#include <cstdlib>
+#include <fstream>
+#include <string>
+#include <math.h>
+ 
+using namespace std;
+
 #include "imageio.h"
 
-int main()
-{
-  std::string input = "image1.jpg";
+// Reads a PGM file.
+// Notice that: height and width are passed by reference!
+void readImage(std::string filename, int image[MAX_H][MAX_W], int &height, int &width) {
+	char c;
+	int x;
+	ifstream instr;
+	instr.open(filename);
+
+	// read the header P2
+	instr >> c;
+	assert(c == 'P');
+	instr >> c;
+	assert(c == '2');
+
+	// skip the comments (if any)
+	while ((instr>>ws).peek() == '#') {
+		instr.ignore(4096, '\n');
+	}
+
+	instr >> width;
+	instr >> height;
+
+	assert(width <= MAX_W);
+	assert(height <= MAX_H);
+	int max;
+	instr >> max;
+	assert(max == 255);
+
+	for (int row = 0; row < height; row++)
+		for (int col = 0; col < width; col++)
+			instr >> image[row][col];
+	instr.close();
+	return;
+}
+
+
+// Writes a PGM file
+// Need to provide the array data and the image dimensions
+void writeImage(std::string filename, int image[MAX_H][MAX_W], int height, int width) {
+	ofstream ostr;
+	ostr.open(filename);
+	if (ostr.fail()) {
+		cout << "Unable to write file\n";
+		exit(1);
+	};
+
+	// print the header
+	ostr << "P2" << endl;
+	// width, height
+	ostr << width << ' ';
+	ostr << height << endl;
+	ostr << 255 << endl;
+
+	for (int row = 0; row < height; row++) {
+		for (int col = 0; col < width; col++) {
+			assert(image[row][col] < 256);
+			assert(image[row][col] >= 0);
+			ostr << image[row][col] << ' ';
+			ostr << endl;
+		}
+	}
+	ostr.close();
+	return;
+}
+
+int main(){
+  std::string input = "inImage.pgm";
   int img[MAX_H][MAX_W];
   int h, w;
   readImage(input, img, h, w); // read it from the file "image1.jpg"
@@ -31,6 +103,7 @@ int main()
       }
 		}
 	}
+  writeImage("inImage.pgm",invert, h, w);
   //invertHalf
   for(int row = 0; row < h; row++) {
     for(int col = 0; col < w; col++) {
@@ -42,6 +115,7 @@ int main()
       }
     }
   }
+  writeImage("inImage.pgm",invertHalf, h, w);
   //box
   for(int row = 0; row < h; row++) {
 		for(int col = 0; col < w; col++) {
@@ -53,7 +127,7 @@ int main()
       }
 		}
 	}
-
+  writeImage("inImage.pgm",box, h, w);
   //frame
   for(int row = 0; row < h; row++) {
 		for(int col = 0; col < w; col++) {
@@ -78,7 +152,7 @@ int main()
       }
 		}
 	}
-
+  writeImage("inImage.pgm",frame, h, w);
   //scale
   int a = 0;
 	int factor = 2;
@@ -94,9 +168,9 @@ int main()
 			scale[row + 1][col] = a;
 		}
 	}
-
+  writeImage("inImage.pgm",scale, h, w);
   //pixelate
-  double b = 0;
+  float b = 0;
 
 	for(int row = 0; row < h; row += 2) {
 		for(int col = 0; col < w; col += 2) {
@@ -108,12 +182,7 @@ int main()
 		}
 	}
   // and save this new image to file "outImage.pgm"
-  writeImage("image1.jpg",invert, h, w);
-  writeImage("image1.jpg",invertHalf, h, w);
-  writeImage("image1.jpg",box, h, w);
-  writeImage("image1.jpg",frame, h, w);
-  writeImage("image1.jpg",scale, h, w);
-  writeImage("image1.jpg",pixelate, h, w);
+  writeImage("inImage.pgm",pixelate, h, w);
   
   return 0;
 }
