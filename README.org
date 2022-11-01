@@ -6,7 +6,7 @@
 
 * GitHub username: sumayiar
 
-* Notes: main.cpp contains both the readImage and writeImage functions because my program wouldn't compile when they were in imageio.cpp. I kept getting this error: "Undefined symbols for architecture x86_64." My code finally seems to be working.
+* Notes: main.cpp contains both the readImage and writeImage functions because my program wouldn't compile when they were in imageio.cpp. I kept getting this error: "Undefined symbols for architecture x86_64." My code finally seems to be working. My second cpp file (test.cpp) was my original file that kept giving me that error message.
 
 
   
